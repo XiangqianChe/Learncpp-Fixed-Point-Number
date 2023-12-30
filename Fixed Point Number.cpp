@@ -9,6 +9,8 @@ public:
 	{
 		if (m_integer < 0 && m_decimal > 0) m_decimal = -m_decimal;
 		if (m_integer > 0 && m_decimal < 0) m_integer = -m_integer;
+		m_integer += (m_decimal / 100);
+		m_decimal %= 100;
 	}
 	explicit operator double() const
 	{
@@ -26,25 +28,19 @@ private:
 
 int main()
 {
-	FixedPoint2 a{ 34, 56 };
+	FixedPoint2 a{ 1, 104 };
 	std::cout << a << '\n';
 	std::cout << static_cast<double>(a) << '\n';
-	assert(static_cast<double>(a) == 34.56);
+	assert(static_cast<double>(a) == 2.04);
 
-	FixedPoint2 b{ -2, 8 };
-	assert(static_cast<double>(b) == -2.08);
+	FixedPoint2 b{ 1, -104 };
+	assert(static_cast<double>(b) == -2.04);
 
-	FixedPoint2 c{ 2, -8 };
-	assert(static_cast<double>(c) == -2.08);
+	FixedPoint2 c{ -1, 104 };
+	assert(static_cast<double>(c) == -2.04);
 
-	FixedPoint2 d{ -2, -8 };
-	assert(static_cast<double>(d) == -2.08);
-
-	FixedPoint2 e{ 0, -5 };
-	assert(static_cast<double>(e) == -0.05);
-
-	FixedPoint2 f{ 0, 10 };
-	assert(static_cast<double>(f) == 0.1);
+	FixedPoint2 d{ -1, -104 };
+	assert(static_cast<double>(d) == -2.04);
 
 	return 0;
 }
